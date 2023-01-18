@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -64,8 +65,13 @@ public class TodoService {
         Optional<TodoEntity> targetEntity = todoRepository.findById(id);
 
         targetEntity.ifPresent(entity -> {
-            entity.setTitle(modifyRequestDTO.getTitle());
-            entity.setDone(modifyRequestDTO.isDone());
+            if(modifyRequestDTO.getTitle()!=null) {
+                entity.setTitle(modifyRequestDTO.getTitle());
+            }
+            System.out.println(modifyRequestDTO.isDone());
+            if(modifyRequestDTO.isDone()) {
+                entity.setDone(true);
+            }
             todoRepository.save(entity);
         });
 
@@ -84,6 +90,8 @@ public class TodoService {
 
         return retrieve();
     }
+
+
 
 
 
