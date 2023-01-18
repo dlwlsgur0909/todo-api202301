@@ -43,7 +43,7 @@
 - todoapi -> service 패키지 -> TodoService 클래스 
 - todoapi -> dto 패키지 -> response 패키지 -> TodoListResponseDTO 클래스
 - todoapi -> dto 패키지 -> response 패키지 -> TodoDetailResponseDTO 클래스
-- 
+- TodoService -> 목록 조회, 등록, 수정, 삭제 (CRUD) 구현
 
 
 
