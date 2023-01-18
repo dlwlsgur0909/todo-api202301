@@ -17,7 +17,7 @@
    - spring.datasource.password=mariadb  
 
 - JPA config  
-   - spring.jpa.properties.hibernate.format-sql=true  
+   - spring.jpa.properties.hibernate.format_sql=true  
    - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDB106Dialect  
    - spring.jpa.show-sql=true  
    - spring.jpa.hibernate.database=mysql  
@@ -35,6 +35,14 @@
 - HELP.MD -> README.MD 
 - git.ignore -> README.MD 삭제 
 
+
+### 프로젝트 빌드 순서
+- com.example.todo -> todoapi 패키지 
+- todoapi -> entity 패키지 -> TodoEntity 클래스
+- todoapi -> repository 패키지 -> TodoRepository 인터페이스
+- todoapi -> service 패키지 -> TodoService 클래스 
+- todoapi -> dto 패키지
+- 
 
 
 
