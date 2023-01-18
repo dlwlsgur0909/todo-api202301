@@ -1,5 +1,8 @@
 package com.example.todo.todoapi.service;
 
+import com.example.todo.dto.response.TodoDetailResponseDTO;
+import com.example.todo.dto.response.TodoListResponseDTO;
+import com.example.todo.todoapi.entity.TodoEntity;
 import com.example.todo.todoapi.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -26,8 +30,16 @@ public class TodoService {
     */
 
     // 할 일 목록 조회
-    public List<?> retrieve() {
-        return todoRepository.findAll();
+    public TodoListResponseDTO retrieve() {
+        List<TodoEntity> entityList = todoRepository.findAll();
+
+        List<TodoDetailResponseDTO> dtoList = entityList.stream()
+                .map(TodoDetailResponseDTO::new)
+                .collect(Collectors.toList());
+
+        return TodoListResponseDTO.builder()
+                .todos(dtoList)
+                .build();
     }
 
 
