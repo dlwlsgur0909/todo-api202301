@@ -4,6 +4,8 @@ import com.example.todo.todoapi.userapi.Repository.UserRepository;
 import com.example.todo.todoapi.userapi.dto.UserSignUpDTO;
 import com.example.todo.todoapi.userapi.dto.UserSignUpResponseDTO;
 import com.example.todo.todoapi.userapi.entity.UserEntity;
+import com.example.todo.todoapi.userapi.exception.DuplicatedEmailException;
+import com.example.todo.todoapi.userapi.exception.NoRegisteredArgumentsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,13 +23,13 @@ public class UserService {
     // 회원가입 처리
     public UserSignUpResponseDTO create(final UserSignUpDTO userSignUpDTO) {
         if(userSignUpDTO == null) {
-            throw new RuntimeException("가입 정보가 없습니다");
+            throw new NoRegisteredArgumentsException("가입 정보가 없습니다");
         }
 
         final String email = userSignUpDTO.getEmail();
         if(userRepository.existsByEmail(email)) {
             log.warn("Email already exist - {}", email);
-            throw new RuntimeException("duplicate email");
+            throw new DuplicatedEmailException("duplicate email");
         }
 
         // 패스워드 인코딩
@@ -35,6 +37,8 @@ public class UserService {
         userSignUpDTO.setPassword(passwordEncoder.encode(rawPassword)); // 암호화 처리
 
         UserEntity savedUser = userRepository.save(userSignUpDTO.toEntity());
+
+        log.info("회원 가입 성공!! - user_id : {}", savedUser.getId());
 
         return new UserSignUpResponseDTO(savedUser);
 
