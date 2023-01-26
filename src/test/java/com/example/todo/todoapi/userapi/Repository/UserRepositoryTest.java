@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +19,7 @@ class UserRepositoryTest {
     @Test
     @DisplayName("회원가입에 성공해야 한다")
     @Transactional
+    @Rollback
     void saveTest() {
         // given
         UserEntity user = UserEntity.builder()
