@@ -68,10 +68,7 @@ public class TodoService {
             if(modifyRequestDTO.getTitle()!=null) {
                 entity.setTitle(modifyRequestDTO.getTitle());
             }
-            System.out.println(modifyRequestDTO.isDone());
-            if(modifyRequestDTO.isDone()) {
-                entity.setDone(true);
-            }
+            entity.setDone(modifyRequestDTO.isDone());
             todoRepository.save(entity);
         });
 

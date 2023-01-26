@@ -7,7 +7,6 @@ import com.example.todo.dto.response.TodoListResponseDTO;
 import com.example.todo.todoapi.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/todos")
+@CrossOrigin  // CORS 허용 설정 (모두 허용)
 public class TodoApiController {
 
     private final TodoService todoService;
@@ -71,8 +71,6 @@ public class TodoApiController {
     // 할 일 목록요청
     @GetMapping
     public ResponseEntity<?> getTodoList() {
-
-
 
         try {
             TodoListResponseDTO todoList = todoService.retrieve();
