@@ -1,6 +1,9 @@
 package com.example.todo.todoapi.userapi.service;
 
+import com.example.todo.security.TokenProvider;
 import com.example.todo.todoapi.userapi.Repository.UserRepository;
+import com.example.todo.todoapi.userapi.dto.LoginRequestDTO;
+import com.example.todo.todoapi.userapi.dto.LoginResponseDTO;
 import com.example.todo.todoapi.userapi.dto.UserSignUpDTO;
 import com.example.todo.todoapi.userapi.dto.UserSignUpResponseDTO;
 import com.example.todo.todoapi.userapi.entity.UserEntity;
@@ -18,6 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenProvider tokenProvider;
 
     // 회원가입 처리
     public UserSignUpResponseDTO create(final UserSignUpDTO userSignUpDTO) {
@@ -52,23 +56,24 @@ public class UserService {
     }
 
     // 로그인 검증
-    public UserEntity getByCredentials(final String email, final String rawPassword) {
+    public LoginResponseDTO getByCredentials(final LoginRequestDTO requestDTO) {
 
         // 입력한 이메일을 통해 회원정보 조회
-        UserEntity originalUser = userRepository.findByEmail(email);
+        UserEntity originalUser = userRepository.findByEmail(requestDTO.getEmail());
 
         if(originalUser == null) {
             throw new RuntimeException("가입된 회원이 아닙니다");
         }
 
         // 비밀번호 검증
-        if(!passwordEncoder.matches(rawPassword, originalUser.getPassword())) {
+        if(!passwordEncoder.matches(requestDTO.getPassword(), originalUser.getPassword())) {
             throw new RuntimeException("비밀번호가 틀렸습니다");
         }
 
         log.info("{}님 로그인 성공!", originalUser.getUserName());
+        String token = tokenProvider.createToken(originalUser);
 
-        return originalUser;
+        return new LoginResponseDTO(originalUser, token);
     }
 
 

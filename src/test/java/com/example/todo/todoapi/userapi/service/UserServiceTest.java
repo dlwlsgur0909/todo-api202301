@@ -1,5 +1,7 @@
 package com.example.todo.todoapi.userapi.service;
 
+import com.example.todo.todoapi.userapi.dto.LoginRequestDTO;
+import com.example.todo.todoapi.userapi.dto.LoginResponseDTO;
 import com.example.todo.todoapi.userapi.dto.UserSignUpDTO;
 import com.example.todo.todoapi.userapi.dto.UserSignUpResponseDTO;
 import com.example.todo.todoapi.userapi.entity.UserEntity;
@@ -8,8 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserServiceTest {
@@ -58,13 +58,15 @@ class UserServiceTest {
     void noUserTest() {
 
         // given
-        String email = "notexist@aaa.com";
-        String password = "1234";
+        LoginRequestDTO requestDTO = LoginRequestDTO.builder()
+                .email("notexist@aaa.com")
+                .password("1234")
+                .build();
 
         // then
         Assertions.assertThrows(RuntimeException.class, () -> {
             // when
-            userService.getByCredentials(email, password);
+            userService.getByCredentials(requestDTO);
         });
     }
 
@@ -73,13 +75,15 @@ class UserServiceTest {
     void wrongPasswordTest() {
 
         // given
-        String email = "postman@naver.com";
-        String password = "wrong password";
+        LoginRequestDTO requestDTO = LoginRequestDTO.builder()
+                .email("postman@naver.com")
+                .password("wrong password")
+                .build();
 
         // then
         Assertions.assertThrows(RuntimeException.class, () -> {
             // when
-            userService.getByCredentials(email, password);
+            userService.getByCredentials(requestDTO);
         });
     }
 
@@ -88,11 +92,14 @@ class UserServiceTest {
     void loginTest() {
 
         // given
-        String email = "aa@aa.com";
-        String password = "qwer12#$";
+        LoginRequestDTO requestDTO = LoginRequestDTO.builder()
+                .email("aa@aa.com")
+                .password("qwer12#$")
+                .build();
+
 
         // when
-        UserEntity loginUser = userService.getByCredentials(email, password);
+        LoginResponseDTO loginUser = userService.getByCredentials(requestDTO);
 
         // then
         Assertions.assertEquals("야호", loginUser.getUserName());

@@ -1,5 +1,7 @@
 package com.example.todo.todoapi.userapi.controller;
 
+import com.example.todo.todoapi.userapi.dto.LoginRequestDTO;
+import com.example.todo.todoapi.userapi.dto.LoginResponseDTO;
 import com.example.todo.todoapi.userapi.dto.UserSignUpDTO;
 import com.example.todo.todoapi.userapi.dto.UserSignUpResponseDTO;
 import com.example.todo.todoapi.userapi.exception.DuplicatedEmailException;
@@ -11,6 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -71,6 +77,34 @@ public class UserApiController {
                 .ok()
                 .body(flag);
 
+    }
+
+    // 로그인 요청 처리
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(@Validated @RequestBody LoginRequestDTO requestDTO, BindingResult result) {
+
+        if(result.hasErrors()) {
+//            log.warn(result.toString());
+            log.warn(result.getFieldError().getDefaultMessage());
+            return ResponseEntity
+                    .badRequest()
+                    .body(LoginResponseDTO.builder()
+                            .message(result.getFieldError().getDefaultMessage())
+                            .build());
+        }
+
+        try {
+            LoginResponseDTO userInfo = userService.getByCredentials(requestDTO);
+            return ResponseEntity
+                    .ok()
+                    .body(userInfo);
+        }catch (RuntimeException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(LoginResponseDTO.builder()
+                            .message(e.getMessage())
+                            .build());
+        }
     }
 
 
