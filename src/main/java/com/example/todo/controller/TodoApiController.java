@@ -76,11 +76,11 @@ public class TodoApiController {
         try {
             TodoListResponseDTO todoList = todoService.retrieve(userId);
 
-            if(todoList.getTodos().size()==0) {
-                return ResponseEntity
-                        .ok()
-                        .body("할 일이 없습니다!");
-            }
+//            if(todoList.getTodos().size()==0) {
+//                return ResponseEntity
+//                        .ok()
+//                        .body("할 일이 없습니다!");
+//            }
 
             return ResponseEntity
                     .ok()

@@ -52,8 +52,12 @@ public class TodoService {
         throws RuntimeException
     {
 
-        TodoEntity todo = todoRepository.save(createRequestDTO.toEntity());
+
+
+        TodoEntity todo = createRequestDTO.toEntity();
         todo.setUserId(userId);
+
+        todoRepository.save(todo);
 
         log.info("할 일이 저장되었습니다. 제목: {}", createRequestDTO.getTitle());
 

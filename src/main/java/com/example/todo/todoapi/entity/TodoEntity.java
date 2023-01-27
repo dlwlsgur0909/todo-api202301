@@ -40,6 +40,7 @@ public class TodoEntity {
     private UserEntity user;
 
     // 할 일 등록, 수정 시 사용할 외래키
+    @Column(name = "user_id")
     private String userId;
 
 
