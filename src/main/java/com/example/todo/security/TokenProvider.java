@@ -3,6 +3,7 @@ package com.example.todo.security;
 // 토큰을 발급하고, 서명 위조를 확인해주는 객체
 
 import com.example.todo.todoapi.userapi.entity.UserEntity;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -37,4 +38,28 @@ public class TokenProvider {
                 .setExpiration(expireDate) // exp: 토큰 만료 시간
                 .compact();
     }
+
+
+    /**
+     * 클라이언트가 보낸 토큰을 디코딩 및 파싱해서 토큰 위조 여부 확인
+     * @param token - 클라이언트가 전송한 인코딩된 토큰
+     * @return - 토큰에서 subject(userId)를 꺼내서 반환
+     */
+    public String validateAndGetUserId(String token) {
+
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes())) // token 발급 당시 서명을 넣어줌
+                .build()
+                // 토큰을 디코딩해서 서명기록을 파싱하고 클라이언트 토큰의 서명과 서버 발급 당시 서명을 비교
+                // 위조되지 않았다면 body에 payload(claims)를 리턴
+                // 위조되었다면 예외를 발생 시킴
+                .parseClaimsJwt(token)
+                .getBody();
+
+
+        return claims.getSubject();
+    }
+
+
+
 }

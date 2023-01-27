@@ -8,9 +8,8 @@ import com.example.todo.todoapi.entity.TodoEntity;
 import com.example.todo.todoapi.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -35,6 +34,7 @@ public class TodoService {
     */
 
     // 할 일 목록 조회
+    @Transactional
     public TodoListResponseDTO retrieve() {
         List<TodoEntity> entityList = todoRepository.findAll();
 

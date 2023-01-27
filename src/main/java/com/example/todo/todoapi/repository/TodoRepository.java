@@ -15,7 +15,7 @@ public interface TodoRepository extends JpaRepository<TodoEntity, String> {
     List<TodoEntity> findNotYetTodos();
 
     // 특정 회원의 할 일 목록 조회
-//    @Query("select t from TodoEntity t where t.user=:userId")
+//    @Query("select t from TodoEntity t where t.user.id=:userId")
     List<TodoEntity> findByUserId(@Param("userId") String userId);
 
 
