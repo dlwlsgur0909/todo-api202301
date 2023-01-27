@@ -56,7 +56,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             log.error("인증되지 않은 사용자 입니다");
-            throw new RuntimeException(e);
         }
 
         // 필터 체인에 내가 만든 커스텀 필터를 실행시킴

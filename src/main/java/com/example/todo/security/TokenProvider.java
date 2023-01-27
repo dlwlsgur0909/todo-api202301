@@ -53,9 +53,8 @@ public class TokenProvider {
                 // 토큰을 디코딩해서 서명기록을 파싱하고 클라이언트 토큰의 서명과 서버 발급 당시 서명을 비교
                 // 위조되지 않았다면 body에 payload(claims)를 리턴
                 // 위조되었다면 예외를 발생 시킴
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
-
 
         return claims.getSubject();
     }
