@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 @Service
 @Slf4j
@@ -51,4 +50,29 @@ public class UserService {
         }
         return userRepository.existsByEmail(email);
     }
+
+    // 로그인 검증
+    public UserEntity getByCredentials(final String email, final String rawPassword) {
+
+        // 입력한 이메일을 통해 회원정보 조회
+        UserEntity originalUser = userRepository.findByEmail(email);
+
+        if(originalUser == null) {
+            throw new RuntimeException("가입된 회원이 아닙니다");
+        }
+
+        // 비밀번호 검증
+        if(!passwordEncoder.matches(rawPassword, originalUser.getPassword())) {
+            throw new RuntimeException("비밀번호가 틀렸습니다");
+        }
+
+        log.info("{}님 로그인 성공!", originalUser.getUserName());
+
+        return originalUser;
+    }
+
+
+
+
+
 }

@@ -7,7 +7,6 @@ import com.example.todo.todoapi.userapi.exception.NoRegisteredArgumentsException
 import com.example.todo.todoapi.userapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
