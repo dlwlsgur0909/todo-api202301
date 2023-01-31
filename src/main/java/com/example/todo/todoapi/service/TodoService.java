@@ -52,8 +52,6 @@ public class TodoService {
         throws RuntimeException
     {
 
-
-
         TodoEntity todo = createRequestDTO.toEntity();
         todo.setUserId(userId);
 

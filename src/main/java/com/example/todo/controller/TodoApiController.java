@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/todos")
-@CrossOrigin  // CORS 허용 설정 (모두 허용)
+//@CrossOrigin  // CORS 허용 설정 (모두 허용)
 public class TodoApiController {
 
     private final TodoService todoService;

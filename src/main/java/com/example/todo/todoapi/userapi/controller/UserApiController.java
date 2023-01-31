@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-@CrossOrigin
+//@CrossOrigin
 public class UserApiController {
 
     private final UserService userService;
