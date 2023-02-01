@@ -2,15 +2,17 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.7'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'war'
+//	id 'war' // war 배포시
 }
 
-war {
-	archiveName 'ROOT.war'
-}
+// war 배포시
+//war {
+//	archiveName 'ROOT.war'
+//}
 
-bootWar.enabled = false; // 내장 was 비활성화
-war.enabled = true;
+// war 배포시
+//bootWar.enabled = false; // 내장 was 비활성화
+//war.enabled = true;
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
